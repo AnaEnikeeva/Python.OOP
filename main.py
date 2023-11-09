@@ -26,7 +26,7 @@ class Student:
           course_mid = course_sum / len(course_grades)
           mid_sum += course_mid
       if mid_sum == 0:
-          return (f'Оценок нет!')
+          return ('Оценок нет!')
       else:
           return round(mid_sum / len(self.grades.values()), 2)
 
@@ -70,13 +70,26 @@ class Lecturer(Mentor):
           course_mid = course_sum / len(course_grades)
           mid_sum += course_mid
       if mid_sum == 0:
-          return f'Оценок нет!'
+          return 'Оценок нет!'
       else:
           return round(mid_sum / len(self.grades.values()), 2) 
 
   def __lt__(self, other):
     if isinstance(other, Lecturer):
       return self.average_grades_lecturer() < other.average_grades_lecturer()
+    else:
+      return 'Ошибка'
+
+  def __gt__(self, other):
+    if isinstance(other, Lecturer):
+      return self.average_grades_lecturer() > other.average_grades_lecturer()
+    else:
+      return 'Ошибка'
+
+
+  def __eq__(self, other):
+    if isinstance(other, Lecturer):
+      return self.average_grades_lecturer() == other.average_grades_lecturer()
     else:
       return 'Ошибка'
 
@@ -165,3 +178,27 @@ elif lecturer_1 < lecturer_2:
   print(f'Лектор {lecturer_2.name} {lecturer_2.surname} лучше, чем лектор {lecturer_1.name} {lecturer_1.surname}')
 elif lecturer_1 == lecturer_2:
   print(f'Лектор {lecturer_2.name} {lecturer_2.surname} и лектор {lecturer_1.name} {lecturer_1.surname} одинаково хороши')
+
+student_list = [student_1, student_2]
+lecturer_list = [lecturer_1, lecturer_2]
+
+def average_student_all(student_list, name_course):
+  sum_all = 0
+  for student in student_list:
+      if name_course in student.grades:
+          sum_all +=sum(student.grades[name_course])
+  result = sum_all / len(student_list)
+  return result
+
+def average_lecturer_all(lecturer_list, name_course):
+  sum_all = 0
+  for lecturer in lecturer_list:
+      if name_course in lecturer.grades:
+          sum_all +=sum(lecturer.grades[name_course])
+  result = sum_all / len(lecturer_list)
+  return result
+
+
+print(f"Средняя оценка за домашние задания по курсу {'Python'}: {average_student_all(student_list, 'Python')}")
+print(f"Средняя оценка лекторам по курсу {'Python'}: {average_lecturer_all(lecturer_list, 'Python')}")
+
